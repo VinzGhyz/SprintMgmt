@@ -1,0 +1,48 @@
+<h1 class="sprint-title text-center">
+	<span ng-show="!editingTitle" ng-dblclick="editTitle()">{{title}}</span>
+	<input  ng-show="editingTitle"
+			ng-model="title"
+			ng-blur="editingTitle = false"
+			ng-enter-submit="editingTitle = false"
+			type="text"
+			class="sprint-title-edit"
+			value="{{title}}">
+</h1>
+<div ng-controller="scrumBoardCtrl" class="container-fluid">
+	<div ng-repeat="list in models" class="col-xs-12 col-sm-4">
+		<div class="panel panel-{{list.style}}">
+			<div class="panel-heading">
+				<h2 class="panel-title">{{list.listName}}</h2>
+			</div>
+			<div class="stories panel-body">
+				<ul dnd-list dnd-drop="onDrop(list, item, index)" class="stories-list">
+					<li class="stories-item"
+						ng-repeat="item in list.items"
+						dnd-draggable="getSelectedItemsIncluding(list, item)"
+						dnd-dragstart="onDragstart(list, event)"
+						dnd-moved="onMoved(list)"
+						dnd-dragend="list.dragging = false"
+						dnd-selected="item.selected = !item.selected"
+						ng-class="{'selected': item.selected}"
+						ng-hide="list.dragging && item.selected"
+						>
+						<span ng-hide="item.editing">{{item.label}}</span>
+						<input  ng-show="item.editing"
+								ng-model="item.label"
+								ng-blur="saveItem(item)"
+								ng-enter-submit="saveItem(item)"
+								type="text"
+								value="{{item.label}}"
+								ng-class="{'editing': item.editing}"
+								class="stories-edit">
+					</li>
+				</ul>
+				
+				<button ng-if="list.listName == 'To Do'" class="btn btn-fab add-item" ng-click="addItem(list)"><i class="material-icons">add</i></button>
+			</div>
+			<div class="panel-footer">
+				<b>{{list.items.length}} <span ng-if="list.items.length != 1">stories</span><span ng-if="list.items.length == 1">story</span> {{list.listName | lowercase}}</b>
+			</div>
+		</div>
+	</div>
+</div>

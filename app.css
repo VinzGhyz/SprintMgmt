@@ -1,0 +1,68 @@
+/* Application-wide css stylesheet */
+
+/**
+* Active Sprint View a.k.a Scrum Board
+*/
+
+h1.sprint-title {
+	margin: 25px 0;
+}
+
+h1.sprint-title input.sprint-title-edit {
+	text-align: center;
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    width: 90%;
+}
+
+.panel .panel-title {
+	font-size: 1.65em;
+}
+
+.panel .panel-body.stories {
+	padding: 15px 15px 45px 15px;
+	transition: height .3s linear;
+}
+
+ul.stories-list {
+	min-height: 30px;
+	margin: 0;
+	list-style: none;
+	padding: 0;
+}
+
+ul.stories-list li.stories-item {
+	cursor: -webkit-grab;
+	padding: 10px 5px;
+	border-bottom: 1px rgba(119, 119, 119, 0.3) solid;
+}
+
+ul.stories-list li.stories-item input.stories-edit {
+	border: none;
+	color: #333;
+	padding: 0;
+	width: 100%;
+}
+
+ul.stories-list li.stories-item.selected {
+	color: #ccc;
+	border-bottom: 1px rgba(119, 119, 119, 0.1) solid;
+}
+
+ul.stories-list li.stories-item.dndDragging {
+	cursor: -webkit-grabbing !important;
+	border-bottom: none;
+}
+
+.btn.btn-fab.add-item {
+	position: absolute;
+	background-color: #f44336;
+	color: white;
+	right: 30px;
+	bottom: 34px;
+}
+
+.stories .btn.btn-fab.add-item:hover, .btn.btn-fab.add-item:focus {
+	background-color: #DC2618;
+}

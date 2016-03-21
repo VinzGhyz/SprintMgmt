@@ -1,0 +1,83 @@
+[  
+    {  
+        "listName":"To Do",
+        "items":[
+            {  
+                "label":"Scale like a boss",
+                "editing":false
+            },
+            {  
+                "label":"Get featured on Product Hunt",
+                "editing":false
+            },
+            {  
+                "label":"Big Data with a purpose",
+                "editing":false
+            },
+            {  
+                "label":"Improve on Data for Good",
+                "editing":false
+            },
+            {  
+                "label":"Deliver world-class Real Impact Analytics",
+                "editing":false
+            },
+            {  
+                "label":"Ramp up APAC operations",
+                "editing":false
+            }
+        ],
+        "dragging":false,
+        "style":"info"
+    },
+    {  
+        "listName":"In Progress",
+        "items":[  
+            {  
+                "label":"Hire all the software engineers",
+                "editing":false
+            },
+            {  
+                "label":"Get the stack on fleek",
+                "editing":false
+            },
+            {  
+                "label":"Implement Spark FTW",
+                "editing":false
+            },
+            {  
+                "label":"Ditch Tableau and increase margins",
+                "editing":false
+            }
+        ],
+        "dragging":false,
+        "style":"warning"
+    },
+    {  
+        "listName":"Complete",
+        "items":[  
+            {  
+                "label":"Visualize data like you mean it",
+                "editing":false
+            },
+            {  
+                "label":"Acquire all the data",
+                "editing":false
+            },
+            {  
+                "label":"Achieve 2x YoY growth",
+                "editing":false
+            },
+            {  
+                "label":"Launch weekly foosball tournaments",
+                "editing":false
+            },
+            {  
+                "label":"Relocate HQ to Bastion",
+                "editing":false
+            }
+        ],
+        "dragging":false,
+        "style":"success"
+    }
+]
