@@ -11,6 +11,10 @@ angular.module('sprintMgmt.scrumBoard', ['ngRoute', 'dndLists', 'LocalStorageMod
 
 .controller('scrumBoardCtrl', ['$scope', '$timeout', 'ScrumBoardTitle', 'ScrumBoardModel', function($scope, $timeout, ScrumBoardTitle, ScrumBoardModel) {
 	
+	/**
+	 * Set title from its model, either loaded from the localStorage or manually set to 
+	 * its default value then bind the changes to localStorage so they're reflected with every change
+	 */
 	$scope.title = ScrumBoardTitle.title;
 	$scope.editingTitle = false;
 	ScrumBoardTitle.bind($scope);
@@ -25,8 +29,7 @@ angular.module('sprintMgmt.scrumBoard', ['ngRoute', 'dndLists', 'LocalStorageMod
 
 	/**
 	 * dnd-dragging determines what data gets serialized and send to the receiver
-	 * of the drop. While we usually just send a single object, we send the array
-	 * of all selected items here.
+	 * of the drop.
 	 */
 	 $scope.getSelectedItemsIncluding = function(list, item) {
 		item.selected = true;
@@ -34,10 +37,8 @@ angular.module('sprintMgmt.scrumBoard', ['ngRoute', 'dndLists', 'LocalStorageMod
 	};
 
 	/**
-	 * We set the list into dragging state, meaning the items that are being
-	 * dragged are hidden. We also use the HTML5 API directly to set a custom
-	 * image, since otherwise only the one item that the user actually dragged
-	 * would be shown as drag image.
+	 * Set the list into dragging state, then use the actual event to access the 
+	 * HTML5 Drag and Drop API and make it a legitimate drag-and-drop component
 	 */
 	 $scope.onDragstart = function(list, event) {
 		 list.dragging = true;
@@ -45,35 +46,37 @@ angular.module('sprintMgmt.scrumBoard', ['ngRoute', 'dndLists', 'LocalStorageMod
 	 };
 
 	/**
-	 * In the dnd-drop callback, we now have to handle the data array that we
-	 * sent above. We handle the insertion into the list ourselves. By returning
-	 * true, the dnd-list directive won't do the insertion itself.
+	 * Handle the drop event, removing the selected attribute and inserting elements in their
+	 * new destination list
 	 */
 	 $scope.onDrop = function(list, items, index) {
 		angular.forEach(items, function(item) { item.selected = false; });
 		list.items = list.items.slice(0, index)
-								.concat(items)
-								.concat(list.items.slice(index));
+					.concat(items)
+					.concat(list.items.slice(index));
 		return true;
 	}
 
 	/**
-	 * Last but not least, we have to remove the previously dragged items in the
-	 * dnd-moved callback.
+	 * Remove the previously dragged items in the callback triggered for moved elements
 	 */
 	 $scope.onMoved = function(list) {
 		list.items = list.items.filter(function(item) { return !item.selected; });
 	};
-
+	
+	/**
+	 * Add an item to the list, then set the focus to the input for ease of edition
+	 */
 	$scope.addItem = function(list) {
 		list.items.push({label: "", editing: true});
-		// Set focus on the input, timeout necessary as we have to wait for the input to be inserted in the DOM
-		$timeout(function() { 
-			angular.element(document.getElementsByClassName('stories-edit editing')).focus();
-		});
+		$timeout(function() { angular.element(document.getElementsByClassName('stories-edit editing')).focus(); });
 
 	};
-
+	
+	/**
+	 * Once the item exits its edition mode, set those attributes back to normal. As the ScrumBoardModel is bound
+	 * to the localStorageService, changes are automatically saved locally
+	 */
 	$scope.saveItem = function(item) {
 		item.editing = false;
 		item.selected = false;
@@ -108,6 +111,9 @@ angular.module('sprintMgmt.scrumBoard', ['ngRoute', 'dndLists', 'LocalStorageMod
 }])
 
 .factory('ScrumBoardTitle', ['localStorageService', function(localStorageService) {
+	/**
+	 * Sprint title is loaded from a localStorage, otherwise it is set to a hardcoded value
+	 */
 	if (!localStorageService.get('title')) { localStorageService.set('title', 'Active Sprint 001'); }
 
 	var title = localStorageService.get('title');
